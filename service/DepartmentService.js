@@ -280,3 +280,19 @@ exports.getDepartmentSalary5 = (data) => {
       });
   });
 };
+
+
+exports.deleteUser = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.employeeDept.destroy({
+      where: { employeeId: data.employeeId },
+      // data
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};

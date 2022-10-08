@@ -27,7 +27,7 @@ const employeeSalary = sequelize.define(
         model: "User",
         key: "id",
       },
-    },
+    }, 
     empEduId: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,

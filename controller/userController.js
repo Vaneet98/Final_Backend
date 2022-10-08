@@ -331,10 +331,16 @@ module.exports = {
     let users = await Service.userService.get(datas);
     if (users) {
       let user = await Service.userService.deleteUser(datas);
+      let user1  = await Service.EmployeeEduService.deleteUser(datas);
+      let user2 = await Service.EmployeeDeptService.deleteUser(datas);
+      let user3 = await Service.SalaryService.deleteUser(datas);
       return {
         status: "Success",
         message: "Sucessfull delete the user",
         user: user,
+        user1:user1,
+        user2:user2,
+        user3:user3
       };
     }
     return {

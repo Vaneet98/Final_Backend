@@ -23,7 +23,7 @@ const employeeEdu = sequelize.define(
       references: {
         model: "education",
         key: "eduId",
-      },
+      }, 
     },
     employeeId: {
       type: DataTypes.UUID,

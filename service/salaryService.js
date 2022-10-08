@@ -229,3 +229,18 @@ exports.getDatass = (data) => {
       });
   });
 };
+
+exports.deleteUser = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.employeeSalary.destroy({
+      where: { employeeId: data.employeeId },
+      // data
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
