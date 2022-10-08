@@ -71,4 +71,17 @@ router.get("/userDetails", (req, res) => {
     res
   );
 });
+    
+router.get("/lists", (req, res) => {
+  let payload = req.query;
+  if (payload.skip && payload.limit && payload.skip > 0) {
+    payload.skip = (payload.skip - 1) * payload.limit;
+  }
+  return sendRespose.executeMethod(
+    userController.getAllAdmins,
+    payload,
+    req,
+    res
+  );
+});
 module.exports = router;

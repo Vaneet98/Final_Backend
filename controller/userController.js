@@ -405,4 +405,30 @@ module.exports = {
       data,
     };
   },
+  getAllAdmins: async (payloadData) => {
+    const schema = Joi.object().keys({
+      limit: Joi.number().required(),
+      skip: Joi.number().required(),
+      sortBy: Joi.string().optional(),
+      orderBy: Joi.string().optional(),
+      search: Joi.string().optional().allow(""),
+      title: Joi.string().optional().allow(""),
+      Isblocked: Joi.string().optional().allow(""),
+      name: Joi.string().optional(),
+    });
+    let payload = await Helper.verifyjoiSchema(payloadData, schema);
+    let admins = await Service.userService.getAllAdmins(
+      payload,
+      parseInt(payload.limit, 10) || 10,
+      parseInt(payload.skip, 10) || 0
+    );
+    if (admins) {
+      return admins;
+    } else {
+      return {
+        rows: [],
+        count: 0,
+      };
+    }
+  },
 };

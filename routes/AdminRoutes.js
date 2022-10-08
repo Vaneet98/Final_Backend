@@ -84,6 +84,7 @@ router.get("/list", (req, res) => {
   );
 });
 
+
 //6 specific person details check
 router.get("/lists/:adminId", (req, res) => {
   return sendResponse.executeMethod(

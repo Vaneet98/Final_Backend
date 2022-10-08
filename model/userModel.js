@@ -32,7 +32,7 @@ const User = sequelize.define(
       type: DataTypes.DATE,
     },
     Isblocked: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       defaultValue: 0,
     },
     gender: {
