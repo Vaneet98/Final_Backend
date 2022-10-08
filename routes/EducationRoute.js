@@ -51,4 +51,23 @@ router.put("/edit/:eduId", (req, res) => {
   );
 });
 
+router.get("/get/:eduId", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.eduControllers.get,
+    req.params,
+    req,
+    res
+  );
+});
+
+
+router.get("/getalltablerecorde", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.eduControllers.getsallrecorde,
+    req.body,
+    req,
+    res
+  );
+}); 
+
 module.exports = router;

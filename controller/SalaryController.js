@@ -158,4 +158,25 @@ module.exports = {
        user:user
       };
 },
+getSalary: async (d, req, res) => {
+  let data={
+    salaryId: req.params.salaryId,
+  }
+  let user = await Service.SalaryService.findDatas(data);
+    return {
+     user:user 
+    };
+},
+gettotal: async (d, req, res) => {
+  let user = await Service.SalaryService.getDatas();
+  let Unblock=user.count
+  let user1 = await Service.SalaryService.getDatass();
+  let block=user1.count
+  let total=Unblock+block
+    return {
+      Unblock:Unblock,
+      block:block,
+     total:total
+    };
+  }
 };

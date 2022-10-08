@@ -60,4 +60,23 @@ router.get("/getsalary", (req, res) => {
   );
 });
 
+router.get("/getsalary/:salaryId", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.salaryController.getSalary,
+    req.body,
+    req,
+    res
+  );
+});
+
+
+router.get("/gettotal", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.salaryController.gettotal,
+    req.body,
+    req,
+    res
+  );
+});
+
 module.exports = router;

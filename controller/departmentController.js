@@ -152,7 +152,7 @@ getsallrecorde:async (d, req, res) => {
       UnblockCount:UnblockCount,
       blockUnblockTotal:total
     };
-},
+}, 
 getDepartmentSalary: async (data) => {
   const user = await Service.DepartmentSer.getDepartmentSalary(data);
   const countBySalaryLevel1 = user.count;
@@ -165,11 +165,51 @@ getDepartmentSalary: async (data) => {
   const countBySalaryLevel3 = user2.count;
 const total=countBySalaryLevel1+countBySalaryLevel2+countBySalaryLevel3
   return {
-    status: 200,
+    status: 200, 
     countBySalaryLevel1: countBySalaryLevel1,
     countBySalaryLevel2: countBySalaryLevel2,
     countBySalaryLevel3: countBySalaryLevel3,
-    total:total
+    total:total,
+    user:user,
+    user1:user1,
+    user2:user2,
+  };
+},
+getDepartmentSalarylevel1: async (data) => {
+  const user = await Service.DepartmentSer.getDepartmentSalary(data);
+  return {
+    status: 200, 
+   user:user,
+  };
+},
+getDepartmentSalarylevel2: async (data) => {
+  const user1 = await Service.DepartmentSer.getDepartmentSalary2(data);
+  return {
+    status: 200, 
+    user1:user1,
+   
+  };
+},
+getDepartmentSalarylevel3: async (data) => {
+  const user2 = await Service.DepartmentSer.getDepartmentSalary3(data);
+  return {
+    status: 200, 
+    user2:user2,
+  };
+},
+getDepartmentSalarylevel4: async (data) => {
+  const user2 = await Service.DepartmentSer.getDepartmentSalary4(data);
+  return {
+    status: 200, 
+    user2:user2,
+  };
+},
+getDepartmentSalarylevel5: async (data) => {
+  const user2 = await Service.DepartmentSer.getDepartmentSalary4(data);
+  return {
+    status: 200, 
+    user2:user2,
   };
 },
 };
+   

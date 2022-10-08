@@ -198,7 +198,7 @@ exports.getDepartmentSalary = (data) => {
     Model.DepartmentModel.findAndCountAll({
       where: {
         salaryType: {
-          [Op.eq]: "Level-1",
+          [Op.eq]: "level-1",
         },
       },
     })
@@ -216,7 +216,7 @@ exports.getDepartmentSalary2 = (data) => {
     Model.DepartmentModel.findAndCountAll({
       where: {
         salaryType: {
-          [Op.eq]: "Level-2",
+          [Op.eq]: "level-2",
         },
       },
     })
@@ -234,7 +234,41 @@ exports.getDepartmentSalary3 = (data) => {
     Model.DepartmentModel.findAndCountAll({
       where: {
         salaryType: {
-          [Op.eq]: "Level-2",
+          [Op.eq]: "level-3",
+        },
+      },
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("Unable to get ALL the Department");
+      });
+  });
+};
+exports.getDepartmentSalary4 = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.DepartmentModel.findAndCountAll({
+      where: {
+        salaryType: {
+          [Op.eq]: "level-4",
+        },
+      },
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("Unable to get ALL the Department");
+      });
+  });
+};
+exports.getDepartmentSalary5 = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.DepartmentModel.findAndCountAll({
+      where: {
+        salaryType: {
+          [Op.eq]: "level-5",
         },
       },
     })

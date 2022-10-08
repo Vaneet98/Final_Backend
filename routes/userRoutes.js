@@ -67,7 +67,7 @@ router.get("/userDetails", (req, res) => {
   return sendRespose.executeMethod(
     userController.userDetails,
     req.body,
-    req,
+    req, 
     res
   );
 });

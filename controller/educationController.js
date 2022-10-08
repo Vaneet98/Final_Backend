@@ -114,4 +114,26 @@ module.exports = {
        user:user 
       };
 },
+get: async (d, req, res) => {
+  let data = {
+    eduId: req.params.eduId,
+  };
+  let user = await Service.EduService.getData(data);
+    return {
+     user:user
+    };
+},
+getsallrecorde:async (d, req, res) => {
+  let userBlockedCount = await Service.EduService.getDatasBlocked();
+  let BlockCount=userBlockedCount.count;
+  let userUnBlockedCount = await Service.EduService.getDatasUnblock();
+  let UnblockCount=userUnBlockedCount.count;
+  let blockUnblockTotal=await Service.EduService.getDatasall();
+  let total=blockUnblockTotal.count;
+    return {
+      BlockCount:BlockCount,
+      UnblockCount:UnblockCount,
+      blockUnblockTotal:total
+    };
+},
 };

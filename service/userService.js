@@ -122,7 +122,7 @@ exports.countuserByPhoneNumber = (data) => {
         console.log("Unable to count the user");
       });
   });
-};
+}; 
 
 exports.countuserByEmail = (data) => {
   return new Promise((resolve, reject) => {

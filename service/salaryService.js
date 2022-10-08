@@ -19,6 +19,24 @@ exports.findData = (data) => {
   });
 };
 
+exports.findDatas = (data) => {
+  console.log(data);
+  return new Promise((resolve, reject) => {
+    Model.salary
+      .findOne({
+        where: {
+          salaryId: data.salaryId,
+        },
+      })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("Unable to Find the department.", error);
+      });
+  });
+};
+
 exports.createData = (data) => {
   console.log(data);
   return new Promise((resolve, reject) => {
@@ -198,3 +216,16 @@ exports.getDatas = (data) => {
   });
 };
 
+exports.getDatass = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.salary.findAndCountAll({
+      where: { isBlocked:1},
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};

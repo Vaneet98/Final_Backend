@@ -48,7 +48,7 @@ exports.getData = (data) => {
   });
 };
 
-//block the department
+//block the educatioin
 exports.block = (data) => {
   return new Promise((resolve, reject) => {
     Model.education
@@ -62,7 +62,7 @@ exports.block = (data) => {
   });
 };
 
-//block the department
+//block the education
 exports.Unblock = (data) => {
   return new Promise((resolve, reject) => {
     Model.education
@@ -139,6 +139,46 @@ exports.getDatas = (data) => {
   return new Promise((resolve, reject) => {
     Model.education.findAndCountAll({
       where: { isBlocked:0},
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+exports.getDatasBlocked = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.education.findAndCountAll({
+      where: { isBlocked:1},
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+
+exports.getDatasUnblock = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.education.findAndCountAll({
+      where: { isBlocked:0},
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+
+exports.getDatasall = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.education.findAndCountAll({
     })
       .then((result) => {
         resolve(result);

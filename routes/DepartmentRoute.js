@@ -70,7 +70,7 @@ router.get("/getalltablerecorde", (req, res) => {
     req,
     res
   );
-});
+}); 
  
   
 router.get("/getDepartmentSalary", (req, res) => {
@@ -79,6 +79,49 @@ router.get("/getDepartmentSalary", (req, res) => {
     req.body,
     req,
     res
-  );
+  ); 
+});  
+router.get("/getDepartmentSalarylevel1", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.departmentControllers.getDepartmentSalarylevel1,
+    req.body,
+    req,
+    res
+  ); 
 });
+router.get("/getDepartmentSalarylevel2", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.departmentControllers.getDepartmentSalarylevel2,
+    req.body,
+    req,
+    res
+  ); 
+});
+router.get("/getDepartmentSalarylevel3", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.departmentControllers.getDepartmentSalarylevel3,
+    req.body,
+    req,
+    res
+  ); 
+});
+
+router.get("/getDepartmentSalarylevel4", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.departmentControllers.getDepartmentSalarylevel4,
+    req.body,
+    req,
+    res
+  ); 
+});
+
+router.get("/getDepartmentSalarylevel5", (req, res) => {
+  return sendResponse.executeMethod(
+    controller.departmentControllers.getDepartmentSalarylevel5,
+    req.body,
+    req,
+    res
+  ); 
+});
+
 module.exports = router;
