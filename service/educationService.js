@@ -193,7 +193,7 @@ exports.getDatasall = (data) => {
 exports.deleteUser = (data) => {
   return new Promise((resolve, reject) => {
     Model.employeeEducation.destroy({
-      where: { employeeId: data.employeeId },
+      where: { employeeId: data.id },
       // data
     })
       .then((result) => {

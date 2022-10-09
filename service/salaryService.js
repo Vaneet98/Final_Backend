@@ -233,7 +233,7 @@ exports.getDatass = (data) => {
 exports.deleteUser = (data) => {
   return new Promise((resolve, reject) => {
     Model.employeeSalary.destroy({
-      where: { employeeId: data.employeeId },
+      where: { employeeId: data.id },
       // data
     })
       .then((result) => {

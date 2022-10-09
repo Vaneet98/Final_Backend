@@ -285,7 +285,7 @@ exports.getDepartmentSalary5 = (data) => {
 exports.deleteUser = (data) => {
   return new Promise((resolve, reject) => {
     Model.employeeDept.destroy({
-      where: { employeeId: data.employeeId },
+      where: { employeeId: data.id },
       // data
     })
       .then((result) => {
