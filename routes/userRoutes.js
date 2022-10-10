@@ -44,33 +44,19 @@ router.get("/logout", (req, res) => {
   });
 });
 
-//6. Delete user
-router.delete("/delete/:id", (req, res) => {
-  return sendRespose.executeMethod(
-    userController.deleteUser,
-    req.params,
-    req,
-    res
-  );
-});
-
-//7. edit user
-router.put("/edit/:id", (req, res) => {
-  return sendRespose.executeMethod(userController.editUser, req.body, req, res);
-});
 
 //8. Block the user
 router.put("/block/:id", (req, res) => {
   return sendRespose.executeMethod(userController.block, req.params, req, res);
 });
-router.get("/userDetails", (req, res) => {
-  return sendRespose.executeMethod(
-    userController.userDetails,
-    req.body,
-    req, 
-    res
-  );
-});
+// router.get("/userDetails", (req, res) => {
+//   return sendRespose.executeMethod(
+//     userController.userDetails,
+//     req.body,
+//     req, 
+//     res
+//   );
+// });
     
 router.get("/lists", (req, res) => {
   let payload = req.query;
@@ -81,6 +67,55 @@ router.get("/lists", (req, res) => {
     userController.getAllAdmins,
     payload,
     req,
+    res
+  );
+});
+
+
+//Delete for edit and edit api
+router.delete("/editdelete/:id", (req, res) => {
+  return sendRespose.executeMethod(
+    userController.editdeleteUser,
+    req.params,
+    req,
+    res
+  );
+});
+
+
+router.put("/editUser/:id", (req, res) => {
+  return sendRespose.executeMethod(
+    userController.editUser,
+    req.body,
+    req,
+    res
+  );
+});
+
+
+
+//Testing  passs
+router.get("/userDetails1", (req, res) => {
+  return sendRespose.executeMethod(
+    userController.userDetails1,
+    req.body,
+    req, 
+    res
+  );
+});
+router.get("/userDetails2/:id", (req, res) => {
+  return sendRespose.executeMethod(
+    userController.userDetails2,
+    req.body,
+    req, 
+    res
+  );
+});
+router.get("/userDetails3/:id", (req, res) => {
+  return sendRespose.executeMethod(
+    userController.userDetails3,
+    req.body,
+    req, 
     res
   );
 });

@@ -18,22 +18,7 @@ exports.findUserByEmail = (data) => {
   });
 };
 
-exports.findUserByNumber = (data) => {
-  console.log(data);
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findOne({
-      where: {
-        phoneNumber: data.phoneNumber,
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to Find the User", error);
-      });
-  });
-};
+
 
 exports.registration = (data) => {
   return new Promise((resolve, reject) => {
@@ -46,22 +31,6 @@ exports.registration = (data) => {
   });
 };
 
-exports.findUserByFacebookID = (data) => {
-  console.log(data);
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findOne({
-      where: {
-        facebookID: data.id,
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to Find the User", error);
-      });
-  });
-};
 
 exports.findUserById = (data) => {
   return new Promise((resolve, reject) => {
@@ -106,84 +75,7 @@ exports.updateUser = (data) => {
   });
 };
 
-exports.countuserByPhoneNumber = (data) => {
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findAndCountAll({
-      where: {
-        phoneNumber: {
-          [Op.ne]: 0,
-        },
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to count the user");
-      });
-  });
-}; 
 
-exports.countuserByEmail = (data) => {
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findAndCountAll({
-      where: {
-        [Op.and]: [
-          {
-            email: {
-              [Op.like]: "%@%",
-            },
-            googleId: {
-              [Op.eq]: 0,
-            },
-          },
-        ],
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to show count of User");
-      });
-  });
-};
-
-exports.getUserBygoogleId = (data) => {
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findAndCountAll({
-      where: {
-        googleId: {
-          [Op.ne]: 0,
-        },
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to Show the Count of the Users");
-      });
-  });
-};
-
-exports.getUserByFacebookId = (data) => {
-  return new Promise((resolve, reject) => {
-    Model.UserModel.findAndCountAll({
-      where: {
-        facebookID: {
-          [Op.ne]: 0,
-        },
-      },
-    })
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((error) => {
-        console.log("Unable to Show the Count of the Users");
-      });
-  });
-};
 
 exports.get = (data) => {
   return new Promise((resolve, reject) => {
@@ -266,30 +158,51 @@ exports.updateData = (newdata) => {
 };
 
 //-------------association----------------
-Model.UserModel.hasMany(Model.employeeDept, { foreignKey: "employeeId" });
-Model.employeeDept.hasMany(Model.employeeEducation, {
-  foreignKey: "empdeptId",
-});
-Model.employeeEducation.hasMany(Model.employeeSalary, {
-  foreignKey: "empEduId",
-});
+// Model.UserModel.hasMany(Model.employeeDept, { foreignKey: "employeeId" });
+// Model.employeeDept.hasMany(Model.employeeEducation, {
+//   foreignKey: "empdeptId",
+// });
+// Model.employeeEducation.hasMany(Model.employeeSalary, {
+//   foreignKey: "empEduId",
+// });
 
-exports.userDetails = () => {
+// exports.userDetails = () => {
+//   return new Promise((resolve, reject) => {
+//     Model.UserModel.findAll({
+//       include: [
+//         {
+//           model: Model.employeeDept,
+//           include: [
+//             {
+//               model: Model.employeeEducation,
+//               include: [
+//                 {
+//                   model: Model.employeeSalary,
+//                 },
+//               ],
+//             },
+//           ],
+//         },
+//       ],
+//     })
+//       .then((result) => {
+//         resolve(result);
+//       })
+//       .catch((error) => {
+//         console.log("getAll err ==>>  ", error);
+//       });
+//   });
+// };
+
+
+
+Model.UserModel.hasMany(Model.employeeDept, { foreignKey: "employeeId" });
+exports.userDetails1 = (data) => {
   return new Promise((resolve, reject) => {
     Model.UserModel.findAll({
       include: [
         {
           model: Model.employeeDept,
-          include: [
-            {
-              model: Model.employeeEducation,
-              include: [
-                {
-                  model: Model.employeeSalary,
-                },
-              ],
-            },
-          ],
         },
       ],
     })
@@ -302,15 +215,56 @@ exports.userDetails = () => {
   });
 };
 
-
-
-Model.UserModel.hasMany(Model.employeeDept, { foreignKey: "employeeId" });
-Model.employeeDept.hasMany(Model.employeeEducation, {
-  foreignKey: "empdeptId",
+Model.UserModel.hasMany(Model.employeeEducation, {
+  foreignKey: "employeeId",
 });
-Model.employeeEducation.hasMany(Model.employeeSalary, {
-  foreignKey: "empEduId",
+
+exports.userDetails2 = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.UserModel.findAll({
+      where: {
+        id: data.id,
+      },
+
+      include: [
+        {
+          model: Model.employeeEducation,
+        },
+      ],
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+
+Model.UserModel.hasMany(Model.employeeSalary, {
+  foreignKey: "employeeId",
 });
+exports.userDetails3 = (data) => {
+  return new Promise((resolve, reject) => {
+    Model.UserModel.findAll({
+      where: {
+        id: data.id,
+      },
+      include: [
+        {
+          model: Model.employeeSalary,
+        },
+      ],
+    })
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+
 
 exports.getAllAdmins = (criteria, limit, offset) => {
   let where = {};
@@ -365,6 +319,36 @@ exports.getAllAdmins = (criteria, limit, offset) => {
       })
       .catch((error) => {
         console.log("getAll err ==>>  ", error);
+      });
+  });
+};
+
+
+exports.editUser = (data) => {
+  console.log(data); /* user ka data */
+  return new Promise((resolve, reject) => {
+    Model.UserModel.update(
+      {
+        name: data.name,
+        email:data.email,
+        DOB: data.DOB,
+        gender: data.gender,
+        address: data.address,
+        DateOfJoining:data.DateOfJoining,
+      },
+      {
+        where: {
+          id: data.id,
+        },
+      }
+    )
+      .then((result) => {
+        console.log("RESULT", result); /* 1 */
+        resolve(result);
+        return result;
+      })
+      .catch((error) => {
+        console.log("Unable to Update User", error);
       });
   });
 };

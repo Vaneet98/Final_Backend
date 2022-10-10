@@ -14,6 +14,11 @@ const employeedepartment = sequelize.define(
     DeptName: {
       type: DataTypes.STRING,
       allowNull: true,
+    },   
+     name:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      trim: true,
     },
  
     deptId: {

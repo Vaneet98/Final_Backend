@@ -22,7 +22,7 @@ module.exports = {
         .trim()
         .optional(),
       email: Joi.string().email().optional(),
-      gender: Joi.string().optional(),
+      gender: Joi.string().valid("Male","Female").optional(),
       address: Joi.string(),
       DOB: Joi.string(),
       DateOfJoining: Joi.string(),
@@ -43,7 +43,7 @@ module.exports = {
         upperCaseAlphabets: true,
         lowerCaseAlphabets: true,
         specialChars: true,
-      });
+      }); 
       const value = Password;
       const salt = await bcrypt.genSalt(8);
       const hashPassword = await bcrypt.hash(value, salt);
@@ -69,10 +69,6 @@ module.exports = {
           const createuser = await Service.userService.registration(userData);
         }
       }
-
-      // const token = jwt.sign({ adminId: user.id }, process.env.JWT_SECRET_KEY, {
-      //   expiresIn: "4d",
-      // });
       const userId = await Service.userService.findUserByEmail(userData);
       if (payload.DeptName) {
         var deptId = await Service.DepartmentSer.findData(userData);
@@ -108,7 +104,7 @@ module.exports = {
         var data = {
           DeptName: payload.DeptName,
           employeeId: userId.id,
-          // deptId: deptId.deptId,
+          name:userId.name,
           deptId: unique,
         };
         console.log(data);
@@ -126,7 +122,8 @@ module.exports = {
           employeeId: userId.id,
           eduId: educationID,
           eduName: eduId.eduName,
-          empdeptId: EDUCATION_DEPARTMENT,
+          // empdeptId: EDUCATION_DEPARTMENT,
+          name:userId.name,
         };
         const findEdu = await Service.EmployeeEduService.findData(eduData);
         if (!findEdu) {
@@ -142,7 +139,8 @@ module.exports = {
         let salaryData = {
           employeeId: userId.id,
           salaryType: SalaryType,
-          empEduId: EMployee_Education,
+          // empEduId: EMployee_Education,
+          name:userId.name,
         };
         const findEdu = await Service.EmployeeSalaryService.findData(
           salaryData
@@ -322,67 +320,7 @@ module.exports = {
         status: 400,
         message: "NO DATA FOUND",
       };
-    }
-  },
-  deleteUser: async (data) => {
-    const datas = {
-      id: data.id,
-    };
-  
-      let user1  = await Service.EduService.deleteUser(datas);
-      if(user1){
-        let user2 = await Service.DepartmentSer.deleteUser(datas);
-        if(user2){
-          let user3 = await Service.SalaryService.deleteUser(datas);
-          if(user3){
-            let user = await Service.userService.deleteUser(datas);
-            if(user){
-              return {
-                status: "Success",
-                message: "Sucessfull delete the user",
-                user: user,
-                user1:user1,
-                user2:user2,
-                user3:user3
-              };
-            }
-          }
-        }
-      }
-    return {
-      status: "falied",
-      message: "User not register",
-      user: user,
-    };
-  },
-  editUser: async (datas, req, res) => {
-    const schema = Joi.object({
-      name: Joi.string()
-        .regex(/^[a-zA-Z ]+$/)
-        .trim()
-        .required(),
-      phoneNumber: Joi.number().integer().required(),
-    });
-    let payload = await Helper.verifyjoiSchema(datas, schema);
-    if (!payload) {
-      return { status: 400, message: "Invalid strings types" };
-    } else {
-      let data = {
-        id: req.params.id,
-        name: payload.name,
-        phoneNumber: payload.phoneNumber,
-      };
-      let update = await Service.userService.updateData(data);
-      if (update) {
-        return {
-          status: 200,
-          message: "data updated successfully",
-          update: update,
-        };
-      } else {
-        return { status: 201, message: "Something is wrong" };
-      }
-    }
+    }  
   },
   block: async (d) => {
     let data = {
@@ -403,18 +341,36 @@ module.exports = {
       };
     }
   },
-  userDetails: async (payload, req, res) => {
-    let data = await Service.userService.userDetails();
-    // let data1 = await Service.userService.userDetails1();
-    // let data2 = await Service.userService.userDetails2();
+  userDetails1: async (payload, req, res) => {
+    let data = await Service.userService.userDetails1();
+      return {
+      data:data,
+    };
+  },
+  userDetails2: async (payload, req, res) => {
+  let data={
+    id:req.params.id
+  }
+  console.log(data)
+    let data1 = await Service.userService.userDetails2(data);
+
     return {
-      data,
+      userInfo:data1,
+    };
+  },
+  userDetails3: async (payload, req, res) => {
+    let data={
+      id:req.params.id
+    }
+    let data2 = await Service.userService.userDetails3(data);
+    return {
+      userInfo:data2,
     };
   },
   getAllAdmins: async (payloadData) => {
     const schema = Joi.object().keys({
-      limit: Joi.number().required(),
-      skip: Joi.number().required(),
+      limit: Joi.number().optional(),
+      skip: Joi.number().optional(),
       sortBy: Joi.string().optional(),
       orderBy: Joi.string().optional(),
       search: Joi.string().optional().allow(""),
@@ -434,6 +390,163 @@ module.exports = {
       return {
         rows: [],
         count: 0,
+      };
+    }
+  },
+  editdeleteUser: async (data) => {
+    const datas = {
+      id: data.id,
+    };
+    let user1  = await Service.EduService.deleteUser(datas);
+    let user2 = await Service.DepartmentSer.deleteUser(datas);
+    let user3 = await Service.SalaryService.deleteUser(datas);
+    if(user1||user2||user3){
+      return {
+        status: "Success",
+        user1:user1,
+        user2:user2,
+        user3:user3
+      };
+    }
+    return {
+      status: "falied",
+      message: "User not register",
+    };
+  },
+  editUser: async (data,req,res) => {
+    const schema = Joi.object({
+      id:Joi.string(),
+      name: Joi.string()
+        .regex(/^[a-zA-Z ]+$/)
+        .trim()
+        .optional(),
+      email: Joi.string().email().optional(),
+      gender: Joi.string().valid("Male","Female").optional(),
+      address: Joi.string(),
+      DOB: Joi.string(),
+      DateOfJoining: Joi.string(),
+      DeptName: Joi.string().optional(),
+      eduName: Joi.string().optional(),
+      salaryType: Joi.string().optional(),
+    });
+    let payload = await Helper.verifyjoiSchema(data, schema);
+    if (!payload) {
+      return { status: "failed", message: "Invalid strings types" };
+    } else {
+      const userDatas = {
+        id: req.params.id,
+      };
+      let userData = {
+        name: payload.name,
+        id:req.params.id,
+        email: payload.email,
+        DOB: payload.DOB,
+        gender: payload.gender,
+        address: payload.address,
+        DeptName: payload.DeptName,
+        DateOfJoining: payload.DateOfJoining,
+        salaryType: payload.salaryType,
+        eduName: payload.eduName,
+      };
+
+      console.log("User details", userData);
+
+      if (userDatas.id) {
+        const user = await Service.userService.findUserById(userDatas);
+        console.log("THis si find user",user)
+        if (user) {
+          const createuser = await Service.userService.editUser(userData);
+          console.log("This is update uder",createuser)
+        }
+      }
+
+   
+      const userId = await Service.userService.findUserById(userData);
+      if (payload.DeptName) {
+        var deptId = await Service.DepartmentSer.findData(userData);
+        unique = deptId.deptId;
+
+        if (deptId.isBlocked === 1) {
+          return {
+            message: "Department is blocked.",
+          };
+        }
+      }
+      if (payload.salaryType) {
+        var salaryType = await Service.SalaryService.findData(userData);
+        SalaryType = salaryType.salaryType;
+        if (salaryType.isBlocked === 1) {
+          return {
+            message: "Salary range is blocked.",
+          };
+        }
+      }
+      if (payload.eduName) {
+        var eduId = await Service.EduService.findData(userData);
+        educationID = eduId.eduId;
+        console.log("222222222", eduId);
+        if (eduId.isBlocked === 1) {
+          return {
+            message: "Education is blocked.",
+          };
+        }
+      }
+     
+      if (payload.DeptName) {
+        var data = {
+          DeptName: payload.DeptName,
+          employeeId: userId.id,
+          deptId: deptId.deptId,
+          name:userId.name
+        };
+        console.log(data);
+        if (data.DeptName) {
+          console.log("66666666", data.DeptName);
+          var findDept = await Service.EmployeeDeptService.findData(data);
+          if (!findDept) {
+            let department = await Service.EmployeeDeptService.createData(data);
+          
+          }
+        }
+      }
+      
+      if (payload.eduName) {
+        let eduData = {
+          employeeId: userId.id,
+          eduId:  eduId.eduId,
+          eduName: eduId.eduName,
+          name:userId.name
+        };
+        const findEdu = await Service.EmployeeEduService.findData(eduData);
+        if (!findEdu) {
+          let education = await Service.EmployeeEduService.createData(eduData);
+        }
+        var findEmployeeEduId = await Service.EmployeeEduService.findData(
+          eduData
+        );
+       
+      }
+      
+      if (payload.salaryType) {
+        let salaryData = {
+          employeeId: userId.id,
+          salaryType: salaryType.salaryType,
+      
+          name:userId.name
+        };
+        const findEdu = await Service.EmployeeSalaryService.findData(
+          salaryData
+        );
+        if (!findEdu) {
+          let education = await Service.EmployeeSalaryService.createData(
+            salaryData
+          );
+        }
+      }
+      return {
+        status: 200,
+        message: "User Update successfully",
+       
       };
     }
   },

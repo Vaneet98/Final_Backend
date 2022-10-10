@@ -23,7 +23,12 @@ const employeeEdu = sequelize.define(
       references: {
         model: "education",
         key: "eduId",
-      }, 
+      },  
+    },
+    name:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      trim: true,
     },
     employeeId: {
       type: DataTypes.UUID,
@@ -34,15 +39,15 @@ const employeeEdu = sequelize.define(
         key: "id",
       },
     },
-    empdeptId: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: true,
-      references: {
-        model: "employeeDept",
-        key: "edId",
-      },
-    },
+    // empdeptId: {
+    //   type: DataTypes.UUID,
+    //   defaultValue: DataTypes.UUIDV4,
+    //   allowNull: true,
+    //   references: {
+    //     model: "employeeDept",
+    //     key: "edId",
+    //   },
+    // },
   },
   {
     freezeTableName: true,
