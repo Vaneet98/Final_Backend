@@ -67,6 +67,27 @@ module.exports = {
         const user = await Service.userService.findUserByEmail(userDatas);
         if (!user) {
           const createuser = await Service.userService.registration(userData);
+          var transporter = nodemailer.createTransport({
+            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+              user: process.env.EMAIL_FROM,
+              pass: process.env.EMAIL_PASS,
+            
+            },
+          });
+          //Send Email
+          let info = await transporter.sendMail({
+            from: process.env.EMAIL_FROM,
+            to: userDatas.email,
+            subject: "Registration",
+            html: `<h3>
+              You have been added as an Employee, Your password is ${Password}.
+                Please log in.
+              </h3>`,
+          });
         }
       }
       const userId = await Service.userService.findUserByEmail(userData);
@@ -152,32 +173,12 @@ module.exports = {
         }
       }
       
-      var transporter = nodemailer.createTransport({
-          service: "gmail",
-          host: "smtp.gmail.com",
-          port: 587,
-          secure: false,
-          auth: {
-            user: process.env.EMAIL_FROM,
-            pass: process.env.EMAIL_PASS,
-          
-          },
-        });
-        //Send Email
-        let info = await transporter.sendMail({
-          from: process.env.EMAIL_FROM,
-          to: userDatas.email,
-          subject: "Registration",
-          html: `<h3>
-            You have been added as an User, Your password is ${Password}.
-              Please log in.
-            </h3>`,
-        });
+      
 
       return {
         status: 200,
         message: "User registration successfully",
-        info: info,
+        // info: info,
       };
     }
   },

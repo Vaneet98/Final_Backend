@@ -30,13 +30,18 @@ module.exports = {
     });
     let data = await Helper.verifyjoiSchema(datas, schema);
     if (!data) {
-      return { message: "Invalid types" };
+      return {status: 402, message: "Invalid types" };
     } else {
       let userData = {
         name: data.name,
         email: data.email,
         password:data.password
       };
+
+      if(!userData) {
+        return { status: 401, message: "All field is Required" };
+      }
+
       const user = await Service.AdminService.getAdmins(userData);
       if (user) {
         return "already exists";
@@ -82,13 +87,14 @@ module.exports = {
           </h3>`,
         });
         return {
-          status: "success",
-          msg: "registered",
+          status: "Success",
+          msg: "Registered",
           user: addUser,
           token: token,
           info: info,
         };
       }
+     
     }
   },
   loginAdmin: async (datas, req, res) => {
